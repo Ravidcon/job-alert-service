@@ -94,8 +94,11 @@ elif new_jobs:
     print(f"Email sent with {len(new_jobs)} new job(s).")
 
 else:
-    print("No new jobs.")
-
+    send_email(
+        "Daily Job Alert – No New Jobs",
+        "The daily check completed successfully. No new Analyst positions were found today."
+    )
+    print("No new jobs. Status email sent.")
 
 # שמירת כל המשרות הנוכחיות לקראת ההרצה הבאה
 sent_jobs_file.write_text(
