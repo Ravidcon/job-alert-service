@@ -1,0 +1,42 @@
+name: Daily Job Alert
+
+on:
+  workflow_dispatch:
+
+  schedule:
+    - cron: "17 9 * * *"
+      timezone: "Asia/Jerusalem"
+
+permissions:
+  contents: write
+
+jobs:
+  check-jobs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download project
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install requests
+        run: pip install requests
+
+      - name: Check jobs and send email
+        env:
+          SENDER_EMAIL: ${{ secrets.SENDER_EMAIL }}
+          APP_PASSWORD: ${{ secrets.APP_PASSWORD }}
+          RECIPIENT_EMAIL: ${{ secrets.RECIPIENT_EMAIL }}
+        run: python job_alert.py
+
+      - name: Save checked jobs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add sent_jobs.json
+          git diff --cached --quiet || git commit -m "Update checked jobs"
+          git push
