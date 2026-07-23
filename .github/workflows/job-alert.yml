@@ -1,11 +1,9 @@
 name: Daily Job Alert
 
-on:
+"on":
   workflow_dispatch:
-
-schedule:
-  - cron: "17 7 * * *"
-      timezone: "Asia/Jerusalem"
+  schedule:
+    - cron: "17 7 * * *"
 
 permissions:
   contents: write
