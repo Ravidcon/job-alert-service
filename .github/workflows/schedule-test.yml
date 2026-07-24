@@ -1,6 +1,7 @@
 name: Schedule Test
 
-"on":
+on:
+  push:
   schedule:
     - cron: "*/5 * * * *"
 
@@ -9,5 +10,5 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Print test message
-        run: echo "Scheduled test ran successfully"
+      - name: Test
+        run: echo "Schedule test works"
